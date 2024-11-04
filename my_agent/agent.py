@@ -17,7 +17,7 @@ workflow = StateGraph(AgentState, config_schema=GraphConfig)
 workflow.add_node("agent", call_model)
 workflow.add_node("action", tool_node)
 
-# Set the entrypoint as `agent`
+# Set the entrypoint as `agent`.  kw:change
 # This means that this node is the first one called
 workflow.set_entry_point("agent")
 
