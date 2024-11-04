@@ -30,7 +30,7 @@ workflow.add_conditional_edges(
     should_continue,
     # Finally we pass in a mapping.
     # The keys are strings, and the values are other nodes.
-    # END is a special node marking that the graph should finish.
+    # END is a specials node marking that the graph should finish.
     # What will happen is we will call `should_continue`, and then the output of that
     # will be matched against the keys in this mapping.
     # Based on which one it matches, that node will then be called.
