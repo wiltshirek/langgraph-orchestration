@@ -86,6 +86,10 @@ workflow.add_edge("final_answer", END)
 # This compiles it into a LangChain Runnable,
 # meaning you can use it as you would any other runnable
 graph = workflow.compile()
+out = graph.invoke({
+    "input": "have all stages been completed successfully according to the business rules",
+    "chat_history": [],
+})
 
 
 
