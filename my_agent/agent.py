@@ -7,7 +7,8 @@ from my_agent.utils.nodes import (
     tools,
     run_tool,
     run_oracle,
-    router
+    router,
+    oracle
 )
 from my_agent.utils.state import AgentState
 
@@ -86,10 +87,17 @@ workflow.add_edge("final_answer", END)
 # This compiles it into a LangChain Runnable,
 # meaning you can use it as you would any other runnable
 graph = workflow.compile()
-out = graph.invoke({
-    "input": "have all stages been completed successfully according to the business rules",
+# out = graph.invoke({
+#     "input": "have all stages been completed successfully according to the business rules",
+#     "chat_history": [],
+# })
+inputs = {
+    "input": "tell me something interesting about dogs",
     "chat_history": [],
-})
+    "intermediate_steps": [],
+}
+out = oracle.invoke(inputs)
+out
 
 
 
