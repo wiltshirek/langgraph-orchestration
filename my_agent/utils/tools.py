@@ -1,4 +1,4 @@
-from langchain_community.tools.tavily_search import TavilySearchResults
+# from langchain_community.tools.tavily_search import TavilySearchResults
 
 from langchain_core.tools import tool
 
@@ -27,24 +27,24 @@ def web_search(query: str):
 
 
 
-@tool("oracle")
-def oracle(query: str):  #access to all stage level tools.
-    """Govern a medical credentialing process by applying business rules and workflow instructions to each step
-     before selecting the best tool to complete the next step.  Workflow stages tools (regardless of level) are agents for that specific stage or step.  Ex:
-     workflow stage 1 is governed by the workflow_stage_1_tool.  Your goal is to complete the entire workflow.  You can verify this
-     by using the is_workflow_complete tool.  
-    quide the workflow  Your goal is to complete the entire workflow without any rule violations
-     or exceptions.  The completion status of each stage can be found by using the stage_complete_agent tool.  if you need more info on 
-     a particular stage then use the stage_state_tool.  You cannot move to the next stage unless all rules are satisfied by the previous stage.
-    quide the workflow
-    """
-    return True
+# @tool("oracle")
+# def oracle(query: str):  #access to all stage level tools.
+#     """Govern a medical credentialing process by applying business rules and workflow instructions to each step
+#      before selecting the best tool to complete the next step.  Workflow stages tools (regardless of level) are agents for that specific stage or step.  Ex:
+#      workflow stage 1 is governed by the workflow_stage_1_tool.  Your goal is to complete the entire workflow.  You can verify this
+#      by using the is_workflow_complete tool.  
+#     quide the workflow  Your goal is to complete the entire workflow without any rule violations
+#      or exceptions.  The completion status of each stage can be found by using the stage_complete_agent tool.  if you need more info on 
+#      a particular stage then use the stage_state_tool.  You cannot move to the next stage unless all rules are satisfied by the previous stage.
+#     quide the workflow
+#     """
+#     return True
 
 @tool("stage_stage")
 def stage_state():
     """"returns the state for a particular stage"""
 
-@tool("stage_complete_agent")
+@tool("business_rules_engine")
 def business_rules_engine(query: str):
     """Using the following stage 2 business rules {BR}, find applicable violations in [state here].   
     if no violations are found return an empty array using the format below.
@@ -67,11 +67,11 @@ def workflow_agent(query:str):
     return "2"
 
 @tool("lightRAG")
-def light_rag_search(query:str):
+def lightRAG(query:str):
     """you are a helpful research assistant."""
     """this tool is in its own world.  consider a lambda for this since
     its like a 3rd party tool not related to the workflow"""
-    return light_rag_search
+    return "light_rag_search"
 
 
 @tool("stage_oracle")  #access to all tools requierd for this stage.
@@ -93,7 +93,7 @@ def stage_oracle(query: str):
 
 
 @tool("check_step_completion")
-def check_stage_completion(query: str):
+def check_step_completion(query: str):
     """checks if a step has been marked as completed.  if not apply business rules below to the following step: STEP
     and return list of violations, empty list is no violation."""
     return "check_stage_completion"
@@ -127,18 +127,60 @@ def rag_search(query: str):
     # context_str = format_rag_contexts(xc["matches"])
     return "rag_search"
 
+@tool("final_answer")
+def final_answer(
+    introduction: str,
+    research_steps: str,
+    main_body: str,
+    conclusion: str,
+    sources: str
+):
+    """Returns a natural language response to the user in the form of a research
+    report. There are several sections to this report, those are:
+    - `introduction`: a short paragraph introducing the user's question and the
+    topic we are researching.
+    - `research_steps`: a few bullet points explaining the steps that were taken
+    to research your report.
+    - `main_body`: this is where the bulk of high quality and concise
+    information that answers the user's question belongs. It is 3-4 paragraphs
+    long in length.
+    - `conclusion`: this is a short single paragraph conclusion providing a
+    concise but sophisticated view on what was found.
+    - `sources`: a bulletpoint list provided detailed sources for all information
+    referenced during the research process
+    """
+    if type(research_steps) is list:
+        research_steps = "\n".join([f"- {r}" for r in research_steps])
+    if type(sources) is list:
+        sources = "\n".join([f"- {s}" for s in sources])
+    return ""
+
 
 tools = [
-    TavilySearchResults(max_results=1),
     rag_search,
     rag_search_filter,
     mark_step_done_agent,
-    check_stage_completion,
+    check_step_completion,
     stage_oracle,
-    light_rag_search,
+    lightRAG,
     workflow_agent,
-    business_rules_engine
+    business_rules_engine,
+    final_answer
 ]
+
+tool_str_to_func = {
+    "rag_search_filter": rag_search_filter,
+    "rag_search": rag_search,
+    "check_step_completion": check_step_completion,
+    "web_search": web_search,
+    "mark_step_done_agent": mark_step_done_agent,
+    "final_answer": final_answer,
+    "lightRAG":lightRAG,
+    "business_rules_engine":business_rules_engine,
+    "workflow_agent":workflow_agent
+
+
+}
 
 
 
