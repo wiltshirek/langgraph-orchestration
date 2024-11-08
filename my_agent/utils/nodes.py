@@ -109,6 +109,7 @@ def run_tool(state: list):
 
 def run_oracle(state: list):
     print("run_oracle")
+    print (state)
     print(f"intermediate_steps: {state['intermediate_steps']}")
     out = oracle.invoke(state)
     tool_name = out.tool_calls[0]["name"]
