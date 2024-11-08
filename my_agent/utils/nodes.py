@@ -34,7 +34,7 @@ def create_scratchpad(intermediate_steps: list[AgentAction]):
             )
     return "\n---\n".join(research_steps)
 
-llm = _get_model("anthropic")
+llm = _get_model("openai")
 
 system_prompt = """You are the oracle, the great AI decision maker.
 Given the user's query you must decide what to do with it based on the
@@ -55,6 +55,8 @@ prompt = ChatPromptTemplate.from_messages([
     ("user", "{input}"),
     ("assistant", "scratchpad: {scratchpad}"),
 ])
+
+
 
 oracle = (
     {

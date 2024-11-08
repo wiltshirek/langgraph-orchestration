@@ -92,7 +92,7 @@ graph = workflow.compile()
 #     "chat_history": [],
 # })
 inputs = {
-    "input": "tell me something interesting about dogs",
+    "input": "are all stages completed",
     "chat_history": [],
     "intermediate_steps": [],
 }
