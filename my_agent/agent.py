@@ -27,13 +27,13 @@ workflow.add_node("oracle", run_oracle)
 # https://langchain-ai.github.io/langgraph/how-tos/subgraph/#add-a-node-function-that-invokes-the-subgraph
 workflow.add_node("mark_step_done_agent", run_tool)
 workflow.add_node("check_step_completion", run_tool)
-workflow.add_node("stage_oracle", run_tool)
+# workflow.add_node("stage_oracle", run_tool)
 workflow.add_node("final_answer", run_tool)
 workflow.add_node("lightRAG", run_tool)
-workflow.add_node("rag_search_filter", run_tool)
-workflow.add_node("rag_search", run_tool)
+# workflow.add_node("rag_search_filter", run_tool)
+# workflow.add_node("rag_search", run_tool)
 workflow.add_node("business_rules_engine", run_tool)
-workflow.add_node("workflow_agent", run_tool)
+# workflow.add_node("workflow_agent", run_tool)
 
 
 
