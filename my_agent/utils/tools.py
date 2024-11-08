@@ -10,20 +10,20 @@ from langchain_core.tools import tool
 ## in this way we should have one generic_stage_tool(works on all levels guided by prompts that contain
 # all the info required for that action, no prior state required), oracle, business_rules_agent
 
-@tool("web_search")
-def web_search(query: str):
-    """Finds general knowledge information using Google search. Can also be used
-    to augment more 'general' knowledge to a previous specialist query."""
-    search = GoogleSearch({
-        **serpapi_params,
-        "q": query,
-        "num": 5
-    })
-    results = search.get_dict()["organic_results"]
-    contexts = "\n---\n".join(
-        ["\n".join([x["title"], x["snippet"], x["link"]]) for x in results]
-    )
-    return contexts
+# @tool("web_search")
+# def web_search(query: str):
+#     """Finds general knowledge information using Google search. Can also be used
+#     to augment more 'general' knowledge to a previous specialist query."""
+#     search = GoogleSearch({
+#         **serpapi_params,
+#         "q": query,
+#         "num": 5
+#     })
+#     results = search.get_dict()["organic_results"]
+#     contexts = "\n---\n".join(
+#         ["\n".join([x["title"], x["snippet"], x["link"]]) for x in results]
+#     )
+#     return contexts
 
 #  """Using the business rules below,[BUSINESS_RULES] find applicable violations in the state provided below[STATE].   
 #     if no violations are found return an empty array using the format below [FORMAT].
@@ -58,10 +58,10 @@ def business_rules_engine(business_rules: str, steps_state: str):
 
 
 
-@tool("workflow_agent") #works for oracle and stages.
-def workflow_agent(query:str):
-    """Get info about a workflow step or stage"""
-    return "worflow agent was accessed for workflow info"
+# @tool("workflow_agent") #works for oracle and stages.
+# def workflow_agent(query:str):
+#     """Get info about a workflow step or stage"""
+#     return "worflow agent was accessed for workflow info"
 
 @tool("lightRAG")
 def lightRAG(query:str):
@@ -148,19 +148,16 @@ tools = [
     mark_step_done_agent,
     check_step_completion,
     lightRAG,
-    workflow_agent,
     business_rules_engine,
     final_answer
 ]
 
 tool_str_to_func = {
     "check_step_completion": check_step_completion,
-    "web_search": web_search,
     "mark_step_done_agent": mark_step_done_agent,
     "final_answer": final_answer,
     "lightRAG":lightRAG,
     "business_rules_engine":business_rules_engine,
-    "workflow_agent":workflow_agent
 
 }
 
