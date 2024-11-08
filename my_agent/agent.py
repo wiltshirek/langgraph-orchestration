@@ -23,6 +23,8 @@ workflow = StateGraph(AgentState, config_schema=GraphConfig)
 # Define the two nodes we will cycle between
 workflow.add_node("oracle", run_oracle)
 # workflow.add_node("action", tool_node)
+# each one of these needs to be subgraphs
+# https://langchain-ai.github.io/langgraph/how-tos/subgraph/#add-a-node-function-that-invokes-the-subgraph
 workflow.add_node("mark_step_done_agent", run_tool)
 workflow.add_node("check_step_completion", run_tool)
 workflow.add_node("stage_oracle", run_tool)
@@ -84,3 +86,56 @@ workflow.add_edge("final_answer", END)
 # This compiles it into a LangChain Runnable,
 # meaning you can use it as you would any other runnable
 graph = workflow.compile()
+
+
+
+
+
+
+# https://langchain-ai.github.io/langgraph/how-tos/subgraph/#add-a-node-function-that-invokes-the-subgraph
+# # Define subgraph
+# class SubgraphState(TypedDict):
+#     # note that none of these keys are shared with the parent graph state
+#     bar: str
+#     baz: str
+
+
+# def subgraph_node_1(state: SubgraphState):
+#     return {"baz": "baz"}
+
+
+# def subgraph_node_2(state: SubgraphState):
+#     return {"bar": state["bar"] + state["baz"]}
+
+
+# subgraph_builder = StateGraph(SubgraphState)
+# subgraph_builder.add_node(subgraph_node_1)
+# subgraph_builder.add_node(subgraph_node_2)
+# subgraph_builder.add_edge(START, "subgraph_node_1")
+# subgraph_builder.add_edge("subgraph_node_1", "subgraph_node_2")
+# subgraph = subgraph_builder.compile()
+
+
+# # Define parent graph
+# class ParentState(TypedDict):
+#     foo: str
+
+
+# def node_1(state: ParentState):
+#     return {"foo": "hi! " + state["foo"]}
+
+
+# def node_2(state: ParentState):
+#     # transform the state to the subgraph state
+#     response = subgraph.invoke({"bar": state["foo"]})
+#     # transform response back to the parent state
+#     return {"foo": response["bar"]}
+
+
+# builder = StateGraph(ParentState)
+# builder.add_node("node_1", node_1)
+# # note that instead of using the compiled subgraph we are using `node_2` function that is calling the subgraph
+# builder.add_node("node_2", node_2)
+# builder.add_edge(START, "node_1")
+# builder.add_edge("node_1", "node_2")
+# graph = builder.compile()
