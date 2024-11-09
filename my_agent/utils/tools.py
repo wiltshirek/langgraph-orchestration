@@ -52,12 +52,12 @@ import random
 
 
 @tool("business_rules_engine")
-def business_rules_engine(query: str, business_rules: str, steps_state: str, stage: str):
+def business_rules_engine(query: str, business_rules: str, stage_number: str):
     """Applies business rules to the current state for this step to check for 
     business rule violations.  If there are no violations for any step you can 
     move on to the next stage.
     """
-    random_num = random.choice(["step 3 for this stage has a violation", "there are no exceptions to any business rules in this stage"])
+    random_num = random.choice([f"step 7 for this stage {stage_number} has a violation", "there are no exceptions to any business rules in this stage"])
 
     return random_num
 
