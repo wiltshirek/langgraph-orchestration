@@ -97,14 +97,14 @@ def check_step_completion(query: str):
     """checks if a step has been marked as completed."""
     random_num = random.choice(["yes, this step has been completed","no, this step is still in progress and has not been completed"])
 
-    return "check_stage_completion was called."
+    return random_num
 
 @tool("mark_step_done_agent")
 def mark_step_done_agent(query: str):
     """marks a step as completed or done"""
 
     #return list of violations, empty list is no violation.
-    return "mark_step_done_agent was called to mark a step as done."
+    return "The step has been marked as [completed]."
 
 
 # @tool("rag_search_filter")
