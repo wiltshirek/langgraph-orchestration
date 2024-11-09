@@ -1,6 +1,7 @@
 # from langchain_community.tools.tavily_search import TavilySearchResults
 
 from langchain_core.tools import tool
+import random
 
 
 ##state is held but its effetively stateless.  all state is retrieved per action and on demand.
@@ -51,10 +52,14 @@ from langchain_core.tools import tool
 
 
 @tool("business_rules_engine")
-def business_rules_engine(business_rules: str, steps_state: str):
-    """Applies business rules to the current state for this step.
+def business_rules_engine(query: str, business_rules: str, steps_state: str, stage: str):
+    """Applies business rules to the current state for this step to check for 
+    business rule violations.  If there are no violations for any step you can 
+    move on to the next stage.
     """
-    return "business rules applied"
+    random_num = random.choice(["step 3 for this stage has a violation", "there are no exceptions to any business rules in this stage"])
+
+    return random_num
 
 
 
@@ -90,6 +95,8 @@ def lightRAG(query:str):
 @tool("check_step_completion")
 def check_step_completion(query: str):
     """checks if a step has been marked as completed."""
+    random_num = random.choice(["yes, this step has been completed","no, this step is still in progress and has not been completed"])
+
     return "check_stage_completion was called."
 
 @tool("mark_step_done_agent")

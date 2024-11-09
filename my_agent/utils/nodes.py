@@ -8,7 +8,6 @@ from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
 
 
 
-
 @lru_cache(maxsize=4)
 def _get_model(model_name: str):
     if model_name == "openai":
