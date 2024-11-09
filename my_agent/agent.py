@@ -97,7 +97,7 @@ inputs = {
     "intermediate_steps": [],
 }
 out = oracle.invoke(inputs)
-out
+print(f'here is the response for your question:, {out}')
 
 
 
